@@ -112,6 +112,8 @@ def guardar_valores(request):
         direccion_destino = request.POST.get('direccion_destino')
         estado = request.POST.get('estado')
         
+        print(request.POST.get('codigo'),request.POST.get('nombre'),request.POST.get('direccion_origen'),request.POST.get('direccion_destino'),request.POST.get('estado'))
+
         mi_modelo = SolicitudForm(codigo=codigo, nombre=nombre, direccion_origen=direccion_origen, direccion_destino=direccion_destino, estado=estado)
         mi_modelo.save()
         

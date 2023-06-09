@@ -26,7 +26,7 @@ urlpatterns = [
     path('solicitudes/<int:pk>/eliminar/', views.eliminar_solicitud, name='eliminar_solicitud'),
     path('buscar/', views.buscar ),
     path('datos/', views.datos),
-    path('guardar_valores/', views.guardar_valores),
+    path('guardar_valores/', views.guardar_valores, name='guardar_valores'),
     path('api/', include('appCourier.urls')),
     path('api_saldo/', views.api_saldo),
     path('api_saludo/',views.api_saludo),
