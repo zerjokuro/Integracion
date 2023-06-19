@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/', include('appCourier.urls')),
     path('api_saldo/', views.api_saldo),
     path('api_saludo/',views.api_saludo),
+    path('api_solicitud/',views.api_solicitud , name= 'api_solicitud'),
 ]
 
 

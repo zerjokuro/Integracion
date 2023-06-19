@@ -120,3 +120,43 @@ def guardar_valores(request):
         return redirect('appCourier/lista_solicitudes.html')  # Redirige a la página deseada después de guardar los valores
 
     return render(request, 'editar_Solicitud.html')  # Renderiza el formulario con los inputs y combobox
+
+#-----------------------------------Integracion--------------------------------
+
+def api_solicitud(request):
+    form = SolicitudForm()
+
+    if request.method == 'POST':
+        form = SolicitudForm(request.POST)
+
+        if form.is_valid():
+            data = {
+                'nombre_origen': form.cleaned_data['nombre_origen'],
+                'direccion_origen': form.cleaned_data['direccion_origen'],
+                'nombre_destino': form.cleaned_data['nombre_destino'],
+                'direccion_destino': form.cleaned_data['direccion_destino'],
+                'comentario': form.cleaned_data['comentario'],
+                'informacion': form.cleaned_data['informacion'],
+                'estado': form.cleaned_data['estado'],
+                # Agrega más campos según corresponda
+            }
+
+            response = requests.get('https://musicpro.bemtorres.win/api/v1/transporte/solicitud', params=data)
+            data = response.json()
+
+            for item in data:
+                solicitud = form.save(commit=False)
+                solicitud.nombre_origen = item['nombre_origen']
+                solicitud.direccion_origen = item['direccion_origen']
+                solicitud.nombre_destino = item['nombre_destino']
+                solicitud.direccion_destino = item['direccion_destino']
+                solicitud.comentario = item['comentario']
+                solicitud.informacion = item['informacion']
+                solicitud.estado = item['estado']
+                # Asigna valores a otros campos según corresponda
+
+                solicitud.save()  # Guarda el objeto en la base de datos
+
+            return redirect('appCourier/lista_solicitudes.html')  # Redirige a la página deseada después de guardar los datos
+
+    return render(request, 'appCourier/solicitud.html', {'form': form})
